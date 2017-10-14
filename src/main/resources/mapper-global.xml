@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="global">
+
+	<sql id="mysql-pagination">
+		<if test="sortField != null and sortField != ''">
+			order by <![CDATA[${sortField}]]>
+			<if test="orderType != null and orderType != ''">
+				<![CDATA[${orderType}]]>
+			</if>
+			<if test="orderType == null or orderType == ''">
+				DESC
+			</if>
+		</if>
+		<if test="sortField == null "><!-- 不传排序字段的时候 默认按照id 倒序 -->
+			order by id DESC
+		</if>
+		<if test="all == null or all==0">
+			<if
+				test="pageStart != null and pageStart >= 0 and pageSize != null and pageSize >= 0">
+				<![CDATA[limit #{pageStart},#{pageSize}]]>
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="page-pagination">
+		<if test="page.sortField != null and page.sortField != ''">
+			order by <![CDATA[${page.sortField}]]>
+			<if test="page.orderType != null and page.orderType != ''">
+				<![CDATA[${page.orderType}]]>
+			</if>
+			<if test="page.orderType == null or page.orderType == ''">
+				DESC
+			</if>
+		</if>
+		<if test="page.sortField == null "><!-- 不传排序字段的时候 默认按照id 倒序 -->
+			order by id DESC
+		</if>
+		<if test="page.all == null or page.all==0">
+			<if
+				test="page.pageStart != null and page.pageStart >= 0 and page.pageSize != null and page.pageSize >= 0">
+				<![CDATA[limit #{page.pageStart},#{page.pageSize}]]>
+			</if>
+		</if>
+	</sql>
+<sql id="global.book-pagination">
+		<if test="book.sortField != null and book.sortField != ''">
+			order by <![CDATA[${book.sortField}]]>
+			<if test="book.orderType != null and book.orderType != ''">
+				<![CDATA[${book.orderType}]]>
+			</if>
+			<if test="book.orderType == null or book.orderType == ''">
+				DESC
+			</if>
+		</if>
+		<if test="book.sortField == null "><!-- 不传排序字段的时候 默认按照id 倒序 -->
+			order by id DESC
+		</if>
+		<if test="book.all == null or book.all==0">
+			<if
+				test="book.pageStart != null and book.pageStart >= 0 and book.pageSize != null and book.pageSize >= 0">
+				<![CDATA[limit #{book.pageStart},#{book.pageSize}]]>
+			</if>
+		</if>
+	</sql>
+	<sql id="global.label-pagination">
+		<if test="page.sortField != null and page.sortField != ''">
+			order by <![CDATA[${page.sortField}]]>
+			<if test="page.orderType != null and page.orderType != ''">
+				<![CDATA[${page.orderType}]]>
+			</if>
+			<if test="page.orderType == null or page.orderType == ''">
+				DESC
+			</if>
+		</if>
+		<if test="page.sortField == null "><!-- 不传排序字段的时候 默认按照id 倒序 -->
+			order by t_label_info.id DESC
+		</if>
+		<if test="page.all == null or page.all==0">
+			<if
+				test="page.pageStart != null and page.pageStart >= 0 and page.pageSize != null and page.pageSize >= 0">
+				<![CDATA[limit #{page.pageStart},#{page.pageSize}]]>
+			</if>
+		</if>
+	</sql>
+</mapper>
