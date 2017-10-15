@@ -20,17 +20,23 @@ public class Exposer {
 
     private Long seckillId;
 
+    public Exposer(boolean exposed, Long seckillId) {
+        this.exposed = exposed;
+        this.seckillId = seckillId;
+    }
+
     public Exposer(boolean exposed, String md, Long seckillId) {
         this.exposed = exposed;
         this.md = md;
         this.seckillId = seckillId;
     }
 
-    public Exposer(boolean exposed, long now, long start, long end) {
+    public Exposer(boolean exposed, long now, long start, long end, Long seckillId) {
         this.exposed = exposed;
         this.now = now;
         this.start = start;
         this.end = end;
+        this.seckillId = seckillId;
     }
 
     public boolean isExposed() {

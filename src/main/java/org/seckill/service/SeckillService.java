@@ -30,12 +30,12 @@ public interface SeckillService {
     Seckill getSeckillById(Long id);
 
     /**
-     * 获取秒杀时间
+     * 获取秒杀地址
      *
      * @param id
      * @return
      */
-    Exposer getExposer(Long id);
+    Exposer ExportSeckillUrl(Long id);
 
     /**
      * 执行秒杀操作
@@ -47,5 +47,6 @@ public interface SeckillService {
      * @throws SeckillException, RepeatKillException, SeckillCloseException
      */
     SeckillExecution executeSeckill(Long seckillId, Long userPhone, String md5) throws SeckillException, RepeatKillException, SeckillCloseException;
+
 
 }
