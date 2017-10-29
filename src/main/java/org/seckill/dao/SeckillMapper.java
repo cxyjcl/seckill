@@ -1,5 +1,6 @@
 package org.seckill.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.seckill.pojo.Seckill;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,8 @@ public interface SeckillMapper {
 
     public Seckill getSeckillById(Long id);
 
-    public Integer reduceNumber(Long id, Date nowTime);
+    public Integer reduceNumber(@Param("id") Long id, @Param("nowTime") Date nowTime);
+
+    public Integer update(Seckill seckill);
 
 }

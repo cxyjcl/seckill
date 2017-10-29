@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.seckill.dao.SuccessKilledMapper">
+    <resultMap id="BaseResultMap" type="org.seckill.pojo.SuccessKilled">
+        <id column="seckill_id" jdbcType="BIGINT" property="seckillId"/>
+        <id column="user_phone" jdbcType="BIGINT" property="userPhone"/>
+        <result column="state" jdbcType="TINYINT" property="state"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    seckill_id, user_phone, state, create_time
+  </sql>
+    <select id="getSuccessKilled" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from success_killed
+        where seckill_id = #{seckillId,jdbcType=BIGINT}
+        and user_phone = #{userPhone,jdbcType=BIGINT}
+    </select>
+    <select id="getSuccessKilledByIdAndPhone" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from success_killed
+        where seckill_id = #{seckillId,jdbcType=BIGINT}
+        and user_phone = #{userPhone,jdbcType=BIGINT}
+    </select>
+    <insert id="insert">
+    <!--为了让重复主键不报错-->
+    insert ignore into success_killed
+        (seckill_id,
+        user_phone,
+        create_time)
+        VALUES (
+        #{seckillId},
+        #{userPhone},
+        now())
+  </insert>
+</mapper>

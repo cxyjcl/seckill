@@ -6,12 +6,14 @@ import org.seckill.exception.RepeatKillException;
 import org.seckill.exception.SeckillCloseException;
 import org.seckill.exception.SeckillException;
 import org.seckill.pojo.Seckill;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by pohoulong on 2017/10/14.
  */
+
 public interface SeckillService {
 
     /**
@@ -35,7 +37,7 @@ public interface SeckillService {
      * @param id
      * @return
      */
-    Exposer ExportSeckillUrl(Long id);
+    Exposer exportSeckillUrl(Long id);
 
     /**
      * 执行秒杀操作

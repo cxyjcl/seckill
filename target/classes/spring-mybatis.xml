@@ -77,6 +77,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
     <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="execute*" propagation="REQUIRED" />
             <tx:method name="append*" propagation="REQUIRED" />
             <tx:method name="insert*" propagation="REQUIRED" />
             <tx:method name="save*" propagation="REQUIRED" />
@@ -100,6 +101,23 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
                       expression="execution(* org.seckill.service..*Impl.*(..))" />
         <aop:advisor pointcut-ref="transactionPointcut"
                      advice-ref="transactionAdvice" />
+    </aop:config>
+
+    <!-- 配置druid监控spring jdbc -->
+    <bean id="druid-stat-interceptor"
+          class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+    </bean>
+    <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+          scope="prototype">
+        <property name="patterns">
+            <list>
+                <value>com.wtlib.base.service.*</value>
+            </list>
+        </property>
+    </bean>
+    <aop:config>
+        <aop:advisor advice-ref="druid-stat-interceptor"
+                     pointcut-ref="druid-stat-pointcut" />
     </aop:config>
 
 </beans>

@@ -14,6 +14,7 @@ import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.util.Date;
@@ -23,6 +24,7 @@ import java.util.List;
 /**
  * Created by pohoulong on 2017/10/15.
  */
+@Service
 public class SeckillServiceImpl implements SeckillService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -47,7 +49,7 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
     @Override
-    public Exposer ExportSeckillUrl(Long id) {
+    public Exposer exportSeckillUrl(Long id) {
         Seckill seckill = getSeckillById(id);
         if (seckill == null) {
             return new Exposer(false, id);
@@ -55,7 +57,7 @@ public class SeckillServiceImpl implements SeckillService {
         long startTime = seckill.getStartTime().getTime();
         long endTime = seckill.getEndTime().getTime();
         long nowTime = new Date().getTime();
-        if (startTime < nowTime || endTime > nowTime) {
+        if (startTime > nowTime || endTime < nowTime) {
             return new Exposer(false, nowTime, startTime, endTime, id);
         }
         String md = getMD(id);
@@ -69,7 +71,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public SeckillExecution executeSeckill(Long seckillId, Long userPhone, String md5) throws SeckillException, RepeatKillException, SeckillCloseException {
-        if (md5 != getMD(seckillId)) {
+        if (md5 == null || !getMD(seckillId).equals(md5)) {
             throw new SeckillException("地址被篡改");
         }
         //执行秒杀：减库存 + 记录购买行为
@@ -84,6 +86,6 @@ public class SeckillServiceImpl implements SeckillService {
             throw new RepeatKillException("重复秒杀");
         }
         SuccessKilled successKilled = successKilledMapper.getSuccessKilledByIdAndPhone(seckillId, userPhone);
-        return new SeckillExecution(seckillId, SeckillStateEnum.SUCCESS_KILL,successKilled);
+        return new SeckillExecution(seckillId, SeckillStateEnum.SUCCESS_KILL, successKilled);
     }
 }
